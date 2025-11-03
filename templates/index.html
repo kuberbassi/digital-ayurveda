@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jeevan-Amrit - Hackathon</title>
+    <title>Digital Ayurveda - Ancient Wisdom, Modern Well-being</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,12 +19,13 @@
 
     <header>
         <nav>
-            <div class="nav-logo-icon">
+            <div class="nav-logo-icon" title="Digital Ayurveda">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
-                    <path d="M2 12h20"></path>
+                    <path
+                        d="M12 4C19 4 22 12 22 12C22 12 19 20 12 20C5 20 2 12 2 12C5 6.5 8 4 12 4Z">
+                    </path>
+                    <circle cx="12" cy="12" r="3"></circle>
                 </svg>
             </div>
             <ul class="nav-links">
@@ -34,6 +35,16 @@
                 <li><a href="#about">About</a></li>
             </ul>
             <div class="nav-actions">
+                <a href="#" class="nav-globe-icon" title="Language">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                        <path
+                            d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                        </path>
+                    </svg>
+                </a>
                 <a href="#guidance" class="btn-ghost">Find Peace</a>
                 <a href="#tracker" class="btn-solid">My Aura</a>
             </div>
@@ -43,14 +54,16 @@
     <main>
         <section id="home" class="hero-section">
 
-            <h1 class="hero-title-top" data-parallax data-parallax-strength="-10">JEEVAN</h1>
-            <h1 class="hero-title-bottom" data-parallax data-parallax-strength="-10">AMRIT</h1>
+            <h1 class="hero-title-top" data-parallax data-parallax-strength="-10">DIGITAL</h1>
+            <h1 class="hero-title-bottom" data-parallax data-parallax-strength="-10">AYURVEDA</h1>
 
             <div class="hero-aura-orb" data-parallax data-parallax-strength="15"></div>
 
             <div class="hero-card-top-right frosted-card" data-parallax data-parallax-strength="30">
-                <p>Welcome to Jeevan-Amrit. A digital interface for your mind and soul, built to **promote physical and
-                    mental balance.**</p>
+                <h2 class="hero-card-title">Ancient Wisdom. Modern Well-being.</h2>
+                <p>Welcome to Digital Ayurveda. We bring the time-tested, holistic principles of Ayurvedic science to
+                    you, wherever you are.</p>
+                <a href="#features" class="btn-solid hero-button">Find Your Balance</a>
             </div>
 
             <div class="hero-card-bottom-left frosted-card" data-parallax data-parallax-strength="-20">
@@ -62,29 +75,193 @@
                 </blockquote>
             </div>
 
+            <div class="scroll-indicator">
+                <a href="#home" class="dot active"></a>
+                <a href="#features" class="dot"></a>
+                <a href="#guidance" class="dot"></a>
+                <a href="#tracker" class="dot"></a>
+                <a href="#about" class="dot"></a>
+            </div>
+
+            <span class="sparkle s1">✧</span>
+            <span class="sparkle s2">✧</span>
+            <span class="sparkle s3">✦</span>
+
+            <div class="bg-graphic eye-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                        d="M12 4C19 4 22 12 22 12C22 12 19 20 12 20C5 20 2 12 2 12C5 6.5 8 4 12 4Z">
+                    </path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+            </div>
+            <div class="bg-graphic eye-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                        d="M12 4C19 4 22 12 22 12C22 12 19 20 12 20C5 20 2 12 2 12C5 6.5 8 4 12 4Z">
+                    </path>
+                </svg>
+            </div>
+
+
+        </section>
+
+        <section id="features" class="content-section reveal-on-scroll">
+            <div class="glass-card tilt-card">
+                <h2 class="gradient-text">A Holistic Path to Your Well-being</h2>
+                <p>A single, interconnected system for your mind, body, and spirit.</p>
+                <div class="guidance-grid">
+                    <div class="guidance-card">
+                        <span class="guidance-icon">🧘</span>
+                        <h3>Find Your Calm</h3>
+                        <p>Explore Ayurvedic insights, mindfulness, and breathwork to reduce stress and support your
+                            body's natural balance.</p>
+                        <a href="#guidance" class="card-link">Explore Guidance →</a>
+                    </div>
+                    <div class="guidance-card">
+                        <span class="guidance-icon">📈</span>
+                        <h3>Nurture Your Practice</h3>
+                        <p>Track your progress as small, consistent Ayurvedic routines (Dinacharya) blossom into
+                            profound and lasting well-being.</p>
+                        <a href="#tracker" class="card-link">View My Aura →</a>
+                    </div>
+                    <div class="guidance-card">
+                        <span class="guidance-icon">🧬</span>
+                        <h3>Understand the Source</h3>
+                        <p>Learn about our philosophy, rooted in the deep Ayurvedic principles of the mind-body
+                            connection.</p>
+                        <a href="#about" class="card-link">Read Our Mission →</a>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section id="guidance" class="content-section reveal-on-scroll">
             <div class="glass-card tilt-card">
-                <h2 class="gradient-text">Find Your Path to Balance</h2>
-                <p>Select a path to focus on. We provide guidance, breathing exercises, and shlokas for reflection.</p>
-
+                <h2 class="gradient-text">Guidance: Tools for Calm & Balance</h2>
+                <p>"I bow to the moon, Soma..." — Inspired by this core Ayurvedic concept of calm, this is your library
+                    to balance your doshas and find peace.</p>
+                <div class="guidance-grid">
+                    <div class="guidance-card">
+                        <span class="guidance-icon">🧠</span>
+                        <h3>Mental Wellness Hub</h3>
+                        <p>Guided programs for managing anxiety, coping with stress, and improving focus through
+                            Ayurvedic psychology.</p>
+                    </div>
+                    <div class="guidance-card">
+                        <span class="guidance-icon">🌿</span>
+                        <h3>Physical Health</h3>
+                        <p>Resources on sleep science, Ayurvedic nutrition, mindful movement, and the power of
+                            Pranayama.</p>
+                    </div>
+                    <div class="guidance-card">
+                        <span class="guidance-icon">🧑‍⚕️</span>
+                        <h3>Expert Insights</h3>
+                        <p>Articles from certified Ayurvedic practitioners on the mind-body connection and holistic
+                            health.</p>
+                    </div>
+                </div>
             </div>
         </section>
 
         <section id="tracker" class="content-section reveal-on-scroll">
             <div class="glass-card tilt-card">
-                <h2 class="gradient-text">The Wellness Journal</h2>
+                <h2 class="gradient-text">My Aura: Your Wellness Dashboard</h2>
+                <p>"Just as a flower... spreads its fragrance all around." — Nurture your daily practice and observe the
+                    positive ripple effect on your life.</p>
+                <div class="tracker-layout">
+                    <div class="journal-form">
+                        <form id="journalForm">
+                            <div class="form-group">
+                                <label for="mood">Daily Check-in: How are you feeling?</label>
+                                <select id="mood" name="mood" class="form-input">
+                                    <option value="calm">Calm & Balanced</option>
+                                    <option value="focused">Focused & Clear</option>
+                                    <option value="grateful">Grateful</option>
+                                    <option value="stressed">Stressed or Anxious</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="entry">My Health Journal</label>
+                                <textarea id="entry" name="entry" rows="5" class="form-input"
+                                    placeholder="A secure space for your personal reflections, insights, and health notes..."></textarea>
+                            </div>
+                            <button type="submit" class="form-button">Save to Journal</button>
+                        </form>
+                    </div>
+                    <div class="shloka-feature">
+                        <h3>Reflection on Action (Dinacharya)</h3>
+                        <blockquote>
+                            "यथा पुष्पं न पात्येत वासितं हि समन्ततः।
+                            तथा सत्पुरुषैर्नित्यं कार्यं यत्सर्वहिताय वै॥"
+                        </blockquote>
+                        <p>Use this journal to reflect on your adherence to your Daily Routine (Dinacharya). What positive
+                            "fragrance" did you spread today?</p>
+                    </div>
+                </div>
             </div>
         </section>
 
         <section id="about" class="content-section reveal-on-scroll">
             <div class="glass-card tilt-card">
-                <h2 class="gradient-text">About Jeevan-Amrit</h2>
+                <h2 class="gradient-text">About Us: The Source of Our Mission</h2>
+                <p>"From whom the universe originates, by whom it is sustained..." — Our philosophy is rooted in the
+                    Ayurvedic understanding that true health is a single, interconnected system.</p>
+                <div class="shloka-feature">
+                    <h3>Our Philosophy</h3>
+                    <p>We believe well-being arises from restoring the natural balance of the mind, body, and spirit.
+                        Our mission is to provide you with the digital tools to reconnect with this fundamental
+                        Ayurvedic source of health.</p>
+                </div>
+                <div class="shloka-feature">
+                    <h3>Our Commitment</h3>
+                    <p>Digital Ayurveda is built by a team of certified Ayurvedic practitioners, psychologists, and
+                        technologists. We blend timeless wisdom with modern, evidence-based practices.</p>
+                </div>
+                <div class="disclaimer">
+                    <p><strong>Medical Disclaimer:</strong> The information and tools provided by Digital Ayurveda are
+                        for supportive and educational purposes. They are not a substitute for professional medical
+                        advice, diagnosis, or treatment.</p>
+                </div>
             </div>
         </section>
 
     </main>
+
+    <footer class="site-footer">
+        <div class="footer-columns">
+            <div class="footer-column">
+                <h4>Navigation</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#guidance">Guidance</a></li>
+                    <li><a href="#tracker">Tracker</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">Articles & Insights</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Medical Disclaimer</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom-line">
+            <p>© 2025 Digital Ayurveda. All Rights Reserved.</p>
+        </div>
+    </footer>
 
     <script src="../static/js/script.js"></script>
 </body>

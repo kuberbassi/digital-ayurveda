@@ -5,8 +5,12 @@
     --text-secondary: #a998ff;
     --accent-primary: #70d6ff;
     --accent-secondary: #a998ff;
-    --glass-bg: rgba(169, 152, 255, 0.08);
-    --glass-border: rgba(224, 247, 250, 0.2);
+
+    /* NEW: "Liquid Glass" variables */
+    --glass-bg: rgba(169, 152, 255, 0.05); /* Made more transparent */
+    --glass-border: rgba(224, 247, 250, 0.1); /* Softer border */
+    --glass-shadow: rgba(112, 214, 255, 0.1); /* Subtle blue glow */
+
     --font-heading: 'Playfair Display', serif;
     --font-body: 'Inter', sans-serif;
 }
@@ -23,6 +27,9 @@ body {
     background-color: var(--bg-dark); 
     color: var(--text-light); 
     overflow-x: hidden; 
+    
+    /* NEW: Minimal Mouse Pointer */
+    cursor: crosshair;
 }
 
 /* ======== HEADER / NAVIGATION ======== */
@@ -33,14 +40,18 @@ header {
     width: 100%;
     padding: 1.5rem 5%; 
     z-index: 10;
-    background: rgba(10, 15, 44, 0.5);
-    backdrop-filter: blur(10px);
+    
+    /* MODIFIED: Liquid glass header */
+    background: rgba(10, 15, 44, 0.3); /* Darker blur */
+    backdrop-filter: blur(15px); /* More blur */
     border-bottom: 1px solid var(--glass-border);
 }
 nav { 
     display: flex; 
     align-items: center; 
 }
+
+/* NEW: Logo Icon Styling */
 .nav-logo-icon {
     width: 44px; 
     height: 44px; 
@@ -49,18 +60,26 @@ nav {
     display: flex; 
     align-items: center;
     justify-content: center; 
-    color: var(--text-secondary); 
+    color: var(--text-secondary); /* Stroke color */
+    fill: var(--text-secondary); /* Fill color */
     transition: all 0.3s ease;
-}
-.nav-logo-icon:hover {
-    color: var(--accent-primary); 
-    border-color: var(--accent-primary);
-    transform: rotate(90deg);
+    cursor: pointer;
 }
 .nav-logo-icon svg { 
     width: 20px; 
     height: 20px; 
 }
+.nav-logo-icon circle {
+    fill: none; /* Keep pupil as an outline */
+}
+.nav-logo-icon:hover {
+    color: var(--accent-primary); 
+    border-color: var(--accent-primary);
+    fill: var(--accent-primary);
+    transform: rotate(0); /* Disabled rotation for a calmer feel */
+}
+/* --- End Logo Style --- */
+
 .nav-links { 
     list-style: none; 
     display: flex; 
@@ -68,8 +87,8 @@ nav {
     margin-left: 4rem; 
 }
 .nav-links a {
-    position: relative; /* For the underline animation */
-    padding-bottom: 5px; /* For the underline animation */
+    position: relative;
+    padding-bottom: 5px;
     text-decoration: none; 
     color: var(--text-light); 
     font-weight: 500;
@@ -77,11 +96,11 @@ nav {
     text-transform: uppercase; 
     letter-spacing: 0.1em;
     transition: color 0.3s ease;
+    cursor: pointer; /* NEW */
 }
 .nav-links a:hover { 
     color: var(--accent-primary); 
 }
-/* Underline animation for nav links */
 .nav-links a::after {
     content: '';
     position: absolute;
@@ -90,18 +109,32 @@ nav {
     width: 100%;
     height: 2px;
     background-color: var(--accent-primary);
-    transform: scaleX(0); /* Start hidden */
+    transform: scaleX(0);
     transform-origin: right;
     transition: transform 0.4s ease-out;
 }
 .nav-links a:hover::after {
-    transform: scaleX(1); /* Animate in */
+    transform: scaleX(1);
     transform-origin: left;
 }
 .nav-actions { 
-    display: flex; 
+    display: flex;
+    align-items: center; 
     gap: 1rem; 
     margin-left: auto; 
+}
+.nav-globe-icon {
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
+    padding: 0 0.5rem;
+    cursor: pointer; /* NEW */
+}
+.nav-globe-icon:hover {
+    color: var(--accent-primary);
+}
+.nav-globe-icon svg {
+    width: 22px;
+    height: 22px;
 }
 .btn-ghost, .btn-solid {
     font-family: var(--font-body); 
@@ -111,6 +144,7 @@ nav {
     border-radius: 30px; 
     font-size: 0.9rem;
     transition: all 0.3s ease;
+    cursor: pointer; /* NEW */
 }
 .btn-ghost { 
     border: 1.5px solid var(--text-light); 
@@ -134,7 +168,7 @@ nav {
 
 /* ======== HERO SECTION ======== */
 .hero-section {
-    position: relative; /* Parent for parallax */
+    position: relative;
     height: 100vh; 
     width: 100%;
     display: flex; 
@@ -154,17 +188,11 @@ nav {
     left: 5%; 
     white-space: nowrap;
 }
-.hero-title-top { 
-    top: 5%; 
-}
-.hero-title-bottom { 
-    bottom: 5%; 
-}
-/* Parallax elements transition */
+.hero-title-top { top: 5%; }
+.hero-title-bottom { bottom: 5%; }
 [data-parallax] {
     transition: transform 0.2s ease-out;
 }
-/* --- Multi-layered, breathing orb --- */
 .hero-aura-orb {
     position: absolute; 
     z-index: 2; 
@@ -175,11 +203,9 @@ nav {
     height: 400px;
     border-radius: 50%;
     animation: pulse 8s ease-in-out infinite;
-    /* Center Orb (Glass) */
     background: radial-gradient( circle, var(--accent-secondary) 0%, rgba(169, 152, 255, 0.3) 30%, rgba(112, 214, 255, 0.2) 60%, transparent 70% );
     box-shadow: 0 0 80px 20px rgba(169, 152, 255, 0.3);
 }
-/* Outer Ripple */
 .hero-aura-orb::before {
     content: ''; 
     position: absolute; 
@@ -190,9 +216,8 @@ nav {
     border-radius: 50%;
     background: radial-gradient(circle, transparent 60%, rgba(112, 214, 255, 0.1) 70%);
     animation: pulse 8s ease-in-out infinite;
-    animation-delay: -2s; /* Offset animation */
+    animation-delay: -2s;
 }
-/* Inner Glow */
 .hero-aura-orb::after {
     content: ''; 
     position: absolute; 
@@ -205,9 +230,10 @@ nav {
     background: var(--accent-secondary);
     filter: blur(40px);
     animation: pulse 8s ease-in-out infinite;
-    animation-delay: -4s; /* Offset animation */
+    animation-delay: -4s;
 }
-/* --- Frosted Cards & Indicators --- */
+
+/* --- Frosted Cards (MODIFIED for Liquid Glass) --- */
 .frosted-card {
     position: absolute; 
     z-index: 3; 
@@ -216,25 +242,30 @@ nav {
     font-size: 1.1rem; 
     line-height: 1.6; 
     font-weight: 300;
+    
+    /* NEW: Liquid Glass Effect */
     background: var(--glass-bg); 
     backdrop-filter: blur(15px);
-    border: 1px solid var(--glass-border); 
+    border: 1px solid var(--glass-border); /* Softer border */
     border-radius: 15px;
-    box-shadow: 0 8px 32px 0 rgba(10, 15, 44, 0.3);
+    /* Glowing shadow + subtle inset */
+    box-shadow: 0 8px 32px 0 rgba(10, 15, 44, 0.3), 
+                0 0 15px var(--glass-shadow), 
+                inset 0 1px 1px rgba(255, 255, 255, 0.05);
 }
-.hero-card-top-right { 
-    top: 18%; 
-    right: 8%; 
+.hero-card-top-right { top: 18%; right: 8%; }
+.hero-card-title {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    color: var(--text-light);
+    margin-bottom: 1rem;
 }
-.hero-card-bottom-left { 
-    bottom: 18%; 
-    left: 8%; 
-    font-style: italic; 
+.hero-button {
+    margin-top: 1.5rem;
+    display: inline-block;
 }
-.hero-card-bottom-left blockquote { 
-    border-left: 3px solid var(--accent-primary); 
-    padding-left: 1rem; 
-}
+.hero-card-bottom-left { bottom: 18%; left: 8%; font-style: italic; }
+.hero-card-bottom-left blockquote { border-left: 3px solid var(--accent-primary); padding-left: 1rem; }
 .hero-card-bottom-left span {
     font-style: normal; 
     font-weight: 600; 
@@ -260,6 +291,7 @@ nav {
     border-radius: 50%; 
     transition: all 0.3s ease;
     text-decoration: none;
+    cursor: pointer; /* NEW */
 }
 .dot.active, .dot:hover {
     background: var(--accent-primary); 
@@ -272,24 +304,13 @@ nav {
     color: var(--accent-primary);
     font-size: 1.5rem; 
     animation: sparkle-fade 4s ease-in-out infinite;
+    pointer-events: none; /* NEW */
 }
-.s1 { 
-    top: 15%; 
-    left: 10%; 
-}
-.s2 { 
-    bottom: 15%; 
-    right: 15%; 
-    animation-delay: -2s; 
-}
-.s3 { 
-    top: 50%; 
-    left: 30%; 
-    font-size: 1rem; 
-    animation-delay: -1s; 
-}
+.s1 { top: 15%; left: 10%; }
+.s2 { bottom: 15%; right: 15%; animation-delay: -2s; }
+.s3 { top: 50%; left: 30%; font-size: 1rem; animation-delay: -1s; }
 
-/* ======== CONTENT SECTIONS (General) ======== */
+/* ======== CONTENT SECTIONS (MODIFIED for Liquid Glass) ======== */
 .content-section {
     padding: 8rem 10%;
     min-height: 100vh; 
@@ -302,11 +323,16 @@ nav {
     width: 100%; 
     max-width: 900px; 
     padding: 3rem 4rem;
+    
+    /* NEW: Liquid Glass Effect */
     background: var(--glass-bg); 
-    border: 1px solid var(--glass-border);
+    border: 1px solid var(--glass-border); /* Softer border */
     border-radius: 20px; 
     backdrop-filter: blur(15px);
-    box-shadow: 0 8px 32px 0 rgba(10, 15, 44, 0.3);
+    /* Glowing shadow + subtle inset */
+    box-shadow: 0 8px 32px 0 rgba(10, 15, 44, 0.3), 
+                0 0 15px var(--glass-shadow), 
+                inset 0 1px 1px rgba(255, 255, 255, 0.05);
 }
 .glass-card h2 {
     font-family: var(--font-heading); 
@@ -314,7 +340,6 @@ nav {
     color: var(--accent-primary); 
     margin-bottom: 0.5rem;
 }
-/* Modern gradient text for all section headings */
 .gradient-text {
     background: linear-gradient(90deg, var(--accent-primary), var(--text-light));
     -webkit-background-clip: text;
@@ -329,15 +354,13 @@ nav {
     max-width: 600px; 
     margin-bottom: 2.5rem;
 }
-/* 3D Card Tilt Animation */
 .tilt-card {
     transform-style: preserve-3d;
     transition: transform 0.5s ease;
 }
 .tilt-card > * {
-    transform: translateZ(20px); /* Lifts content off the card */
+    transform: translateZ(20px);
 }
-/* Fade-in on Scroll Animation */
 .reveal-on-scroll {
     opacity: 0;
     transform: translateY(30px);
@@ -348,7 +371,7 @@ nav {
     transform: translateY(0);
 }
 
-/* ======== GUIDANCE SECTION (Specific) ======== */
+/* ======== GUIDANCE & FEATURES SECTION ======== */
 .guidance-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -362,6 +385,8 @@ nav {
     padding: 1.5rem;
     transition: all 0.3s ease;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
 }
 .guidance-card:hover {
     transform: translateY(-5px);
@@ -383,20 +408,32 @@ nav {
     font-size: 0.9rem;
     color: var(--text-secondary);
     line-height: 1.5;
+    flex-grow: 1;
+}
+.card-link {
+    text-decoration: none;
+    color: var(--accent-primary);
+    font-weight: 500;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    transition: color 0.3s ease;
+}
+.card-link:hover {
+    color: var(--text-light);
 }
 
-/* ======== TRACKER SECTION (Specific) ======== */
+/* ======== TRACKER SECTION ======== */
 .tracker-layout {
     display: flex;
     gap: 3rem;
-    flex-wrap: wrap; /* Allows stacking on small screens */
+    flex-wrap: wrap;
 }
 .journal-form {
-    flex: 1; /* Takes 50% */
+    flex: 1;
     min-width: 300px;
 }
 .tracker-layout .shloka-feature {
-    flex: 1; /* Takes 50% */
+    flex: 1;
     margin-top: 0;
     padding-top: 0;
     border-top: none;
@@ -416,7 +453,7 @@ nav {
 }
 .form-input {
     width: 100%;
-    background: rgba(10, 15, 44, 0.5); /* Darker inner bg */
+    background: rgba(10, 15, 44, 0.5);
     border: 1px solid var(--glass-border);
     border-radius: 5px;
     padding: 0.75rem 1rem;
@@ -471,7 +508,7 @@ textarea.form-input {
     line-height: 1.6;
     border-left: 3px solid var(--accent-primary);
     padding-left: 1.5rem;
-    margin: 0 0 1rem 0.5rem; /* Adjusted margin */
+    margin: 0 0 1rem 0.5rem;
 }
 .shloka-feature blockquote span {
     display: block;
@@ -489,13 +526,75 @@ textarea.form-input {
     margin-top: 1rem;
 }
 
+/* ======== ABOUT SECTION DISCLAIMER ======== */
+.disclaimer {
+    margin-top: 2.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--glass-border);
+}
+.disclaimer p {
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+.disclaimer p strong {
+    color: var(--text-light);
+}
+
+/* ======== FOOTER ======== */
+.site-footer {
+    padding: 4rem 10% 2rem 10%;
+    background: #06091a;
+    border-top: 1px solid var(--glass-border);
+}
+.footer-columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+.footer-column {
+    flex: 1;
+    min-width: 150px;
+}
+.footer-column h4 {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-light);
+    margin-bottom: 1rem;
+}
+.footer-column ul {
+    list-style: none;
+}
+.footer-column ul li {
+    margin-bottom: 0.75rem;
+}
+.footer-column ul a {
+    text-decoration: none;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
+}
+.footer-column ul a:hover {
+    color: var(--accent-primary);
+}
+.footer-bottom-line {
+    text-align: center;
+    border-top: 1px solid var(--glass-border);
+    padding-top: 2rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
 /* ======== ANIMATIONS (Keyframes) ======== */
 @keyframes pulse {
     0% { transform: scale(0.95); opacity: 0.7; }
     50% { transform: scale(1.05); opacity: 1; }
     100% { transform: scale(0.95); opacity: 0.7; }
 }
-/* Main orb pulse has translate() */
 .hero-aura-orb { 
     animation-name: pulse-main; 
 }
@@ -511,35 +610,28 @@ textarea.form-input {
 
 /* ======== RESPONSIVENESS ======== */
 @media (max-width: 768px) {
-    .hero-title-top { 
-        top: 10%; 
-    }
-    .hero-title-bottom { 
-        bottom: 10%; 
-    }
+    /* (Responsive styles are unchanged) */
+    .hero-title-top { top: 10%; }
+    .hero-title-bottom { bottom: 10%; }
     .hero-card-top-right, .hero-card-bottom-left {
         position: relative;
-        top: 0; 
-        left: 0; 
-        right: 0; 
-        bottom: 0;
+        top: 0; left: 0; right: 0; bottom: 0;
         transform: none;
         margin: 1rem auto;
         max-width: 90%;
     }
-    /* Stack hero elements on mobile */
     .hero-section {
         flex-direction: column;
-        padding-top: 100px; /* Offset for nav */
+        padding-top: 100px;
     }
     .hero-aura-orb {
         position: relative;
         width: 300px; 
         height: 300px;
-        order: -1; /* Put orb before text cards */
+        order: -1;
     }
     .nav-links {
-        display: none; /* Hide links on mobile (for a hackathon) */
+        display: none;
     }
     .glass-card {
         padding: 2rem 1.5rem;
@@ -548,3 +640,49 @@ textarea.form-input {
         flex-direction: column;
     }
 }
+
+/* ======== NEW: CLICK RIPPLE ANIMATION ======== */
+.click-ripple {
+    position: fixed; /* Use fixed so it's relative to viewport */
+    border-radius: 50%;
+    border: 2px solid var(--accent-primary);
+    transform: scale(0);
+    animation: ripple-effect 0.6s ease-out;
+    pointer-events: none; /* So it doesn't interfere */
+    z-index: 9999;
+    
+    /* Set a size for the ripple */
+    width: 50px;
+    height: 50px;
+}
+@keyframes ripple-effect {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* ======== NEW: BACKGROUND GRAPHIC ELEMENTS ======== */
+.bg-graphic {
+    position: absolute;
+    z-index: 0; /* Behind everything */
+    color: rgba(112, 214, 255, 0.05); /* Very faint */
+    pointer-events: none;
+    animation: sparkle-fade 10s ease-in-out infinite; /* Subtle fade */
+}
+.bg-graphic.eye-1 { 
+    top: 20%; 
+    left: 30%; 
+    transform: rotate(15deg); 
+    animation-delay: -5s;
+}
+.bg-graphic.eye-2 { 
+    bottom: 20%; 
+    right: 30%; 
+    transform: rotate(-15deg); 
+}
+.bg-graphic svg {
+    width: 100%;
+    height: 100%;
+}
+
