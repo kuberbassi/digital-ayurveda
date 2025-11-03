@@ -4,10 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const header = document.querySelector('header');
     const hero = document.querySelector('.hero-section');
-    
+
     // --- 0. Header Scroll Transition (Transparent to Solid) ---
     const updateHeader = () => {
-        if (window.scrollY > 50) { 
+        if (window.scrollY > 50) {
             header.setAttribute('data-header-state', 'scrolled');
         } else {
             header.setAttribute('data-header-state', 'transparent');
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollObserver.observe(el);
     });
 
-    
+
     // --- 2. Active Nav Dot Scrolling (Same as before) ---
     const sections = document.querySelectorAll('section[id]');
     const navDots = document.querySelectorAll('.scroll-indicator .dot');
@@ -51,8 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     const id = entry.target.getAttribute('id');
                     const activeDot = document.querySelector(`.scroll-indicator a[href="#${id}"]`);
                     navDots.forEach(dot => dot.classList.remove('active'));
-                    if (activeDot) { 
-                        activeDot.classList.add('active'); 
+                    if (activeDot) {
+                        activeDot.classList.add('active');
                     }
                 }
             });
@@ -62,37 +62,85 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- 3. Wellness Journal Submission (Same as before) ---
+    // This is the updated section for the journal submission in script.js
     const journalForm = document.getElementById('healthJournalForm');
     if (journalForm) {
         journalForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
-            const data = {
-                mood_level: parseInt(document.getElementById('mood_level').value),
-                sleep_hours: parseFloat(document.getElementById('sleep_hours').value),
-                water_intake: parseFloat(document.getElementById('water_intake').value),
-                exercise_time: parseInt(document.getElementById('exercise_time').value),
-                screen_time: parseFloat(document.getElementById('screen_time').value),
-                notes: document.getElementById('notes').value,
-                stress_level: 10 - parseInt(document.getElementById('mood_level').value),
-                user_id: 'temp_user_hackathon' 
+
+            const userId = 'temp_user_hackathon'; // Hardcoded user ID
+
+            // 1. Capture all form data
+            const moodLevel = parseInt(document.getElementById('mood_level').value);
+            const sleepHours = parseFloat(document.getElementById('sleep_hours').value);
+            const waterIntake = parseFloat(document.getElementById('water_intake').value);
+            const exerciseTime = parseInt(document.getElementById('exercise_time').value);
+            const screenTime = parseFloat(document.getElementById('screen_time').value);
+            const notes = document.getElementById('notes').value;
+
+            // 2. Store non-mood data (Sleep, Water, Exercise, Screen) in localStorage
+            const nonMoodData = {
+                sleep_hours: sleepHours,
+                water_intake: waterIntake,
+                exercise_time: exerciseTime,
+                screen_time: screenTime,
+                notes: notes,
+                timestamp: new Date().toISOString()
+            };
+            localStorage.setItem(`daily_metrics_${userId}_${new Date().toDateString()}`, JSON.stringify(nonMoodData));
+            console.log('Non-mood data saved to localStorage:', nonMoodData);
+
+            // 3. Send Mood data to MongoDB via API (existing /api/mood route)
+            const moodData = {
+                user_id: userId,
+                mood_level: moodLevel * 10, // Scale 1-10 to 10-100 for better display context
+                emotional: moodLevel,
+                mental: moodLevel,
+                physical: moodLevel,
+                notes: `Mood Log: ${notes}`,
             };
 
-            console.log('Journal Data to be sent:', data);
-
             try {
-                // Mocking the fetch for quick testing
-                alert(`Log Successful! Mood/Stress: ${data.mood_level}/${data.stress_level}. Sleep: ${data.sleep_hours}h. Ready for API call.`);
+                const moodResponse = await fetch('/api/mood', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(moodData)
+                });
+
+                if (!moodResponse.ok) throw new Error('Failed to log mood.');
+
+                const result = await moodResponse.json();
+                console.log('Mood logged to MongoDB:', result);
+
+                // 4. Calculate and send a simplified Wellness Score (for session-clearing MongoDB route)
+                const wellnessScore = Math.round((moodLevel / 10) * 40 + (sleepHours / 8) * 30 + (waterIntake / 2) * 10 + (exerciseTime / 60) * 20);
+
+                const scoreData = {
+                    user_id: userId,
+                    score: Math.min(100, wellnessScore),
+                    timestamp: new Date().toISOString()
+                };
+
+                // This new endpoint will be implemented to temporarily store the score in MongoDB
+                await fetch('/api/wellness-session-log', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(scoreData)
+                });
+
+                // 5. Success Feedback and Reset
+                alert(`Log Successful! Wellness Score: ${scoreData.score}/100. Data sent to API/saved locally.`);
                 journalForm.reset();
                 moodValueSpan.textContent = '5'; // Reset slider label
+
             } catch (error) {
                 console.error('Failed to send entry:', error);
-                alert('Error connecting to the server.');
+                alert('Error connecting to the server. Check console for details.');
             }
         });
     }
 
-    
+
     // --- 4. Hero Mouse-Move Parallax (Same as before) ---
     const parallaxElements = document.querySelectorAll('[data-parallax]');
 
@@ -106,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
-    
+
     // --- 5. 3D Card Tilt (Same as before) ---
     document.querySelectorAll('.tilt-card').forEach(card => {
         card.addEventListener('mousemove', (e) => {
@@ -160,18 +208,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 const dotRect = dot.getBoundingClientRect();
                 const dotX = dotRect.left + dotRect.width / 2;
                 const dotY = dotRect.top + dotRect.height / 2;
-                
+
                 const dx = mouseX - dotX;
                 const dy = mouseY - dotY;
                 const distance = Math.sqrt(dx * dx + dy * dy);
-                
+
                 const maxDistance = 150;
                 if (distance < maxDistance) {
-                    const repulsion = (1 - (distance / maxDistance)) * 10; 
-                    
+                    const repulsion = (1 - (distance / maxDistance)) * 10;
+
                     const newX = dotX - (dx / distance) * repulsion - heroRect.left;
                     const newY = dotY - (dy / distance) * repulsion - heroRect.top;
-                    
+
                     dot.style.transition = 'transform 0.5s ease-out';
                     dot.style.transform = `translate(${newX}px, ${newY}px)`;
                     dot.style.backgroundColor = `var(--accent-primary)`;
@@ -181,16 +229,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         });
-        
+
         hero.addEventListener('mouseleave', () => {
-             dots.forEach(dot => {
+            dots.forEach(dot => {
                 dot.style.transition = 'transform 1s ease-out, background-color 0.5s ease';
-                dot.style.transform = 'translate(0, 0)'; 
+                dot.style.transform = 'translate(0, 0)';
                 dot.style.backgroundColor = `var(--accent-secondary)`;
             });
         });
     }
-    
+
     // --- NEW: 8. Interactive Planet Generation (Cosmic Elements) ---
     const planetContainer = document.getElementById('planet-container');
     const colors = ['#A998FF', '#70D6FF', '#E0F7FA']; // Lavender, Cyan, Light
@@ -200,35 +248,35 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < numPlanets; i++) {
             const planet = document.createElement('div');
             planet.classList.add('planet-element');
-            
+
             const size = Math.random() * 8 + 4; // Size between 4px and 12px
             planet.style.width = `${size}px`;
             planet.style.height = `${size}px`;
-            
+
             planet.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
             planet.style.opacity = Math.random() * 0.6 + 0.2;
-            
+
             // Initial position (randomized across the screen)
             planet.style.left = `${Math.random() * 100}%`;
             planet.style.top = `${Math.random() * 100}%`;
-            
+
             // Set animation properties
             planet.style.animationName = 'float-planet';
             planet.style.animationDuration = `${Math.random() * 40 + 20}s`; // 20s to 60s
             planet.style.animationTimingFunction = 'ease-in-out';
             planet.style.animationIterationCount = 'infinite';
             planet.style.animationDirection = 'alternate';
-            
+
             // Set transform origin for slight rotation effect
             planet.style.transformOrigin = `${Math.random() * 100}% ${Math.random() * 100}%`;
 
             planetContainer.appendChild(planet);
         }
     };
-    
+
     if (planetContainer) {
         generatePlanets();
-        
+
         // Add animation keyframes dynamically
         const styleSheet = document.createElement('style');
         styleSheet.type = 'text/css';
@@ -240,6 +288,6 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         document.head.appendChild(styleSheet);
     }
-    
+
 
 });

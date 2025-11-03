@@ -30,6 +30,7 @@ try:
     mood_tracker = db.mood_tracker
     daily_routines = db.daily_routines
     sleep_tracker = db.sleep_tracker
+    session_scores = db.session_scores # NEW: For session-based wellness score
 
     print("✅ MongoDB Connected Successfully!")
 except Exception as e:
@@ -226,44 +227,87 @@ def get_today_routines(user_id):
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)}), 400
 
+# ==================== DAILY ROUTINES ROUTES (Cont.) ====================
+# ... (existing /api/routines/<user_id>/today route is above this)
+
 @app.route('/api/ai-suggestions', methods=['GET'])
 def get_ai_suggestions():
-    """Get AI-powered wellness suggestions"""
+    """
+    Get AI-powered wellness suggestions, dynamically adjusting 
+    based on the user's latest mood and adding random activities.
+    """
     try:
-        period = request.args.get('period', 'morning')
+        import random # This needs to be imported at the top of app.py
 
-        suggestions = {
+        period = request.args.get('period', 'evening') # Default to evening for "Soma Zone" focus
+        user_id = request.args.get('user_id', 'temp_user_hackathon') 
+
+        # 1. Fetch latest mood for dynamic text (MongoDB usage)
+        latest_mood = mood_tracker.find_one(
+            {'user_id': user_id},
+            sort=[('timestamp', -1)]
+        )
+        # mood_level is scaled 10-100 in the frontend, so we use that for logic
+        mood_level = latest_mood.get('mood_level', 50) if latest_mood else 50
+        
+        if mood_level > 70:
+            mood_status = "highly positive! Let's sustain this tranquility."
+            mood_message = 'A mindful evening routine will help you lock in your great state.'
+        elif mood_level < 40:
+            mood_status = "needs attention. Focus on 'Soma' to cool the stress."
+            mood_message = 'Prioritize deep relaxation and self-care tonight.'
+        else:
+            mood_status = "balanced. Great work maintaining harmony."
+            mood_message = 'Continue your consistent practice to support your balance.'
+            
+
+        # 2. Define extra random activities for dynamic presentation
+        extra_activities = [
+            {'name': 'Chanting a Mantra', 'duration': '5 min', 'icon': '🕉️', 'benefit': 'Spiritual focus'},
+            {'name': 'Oil Pulling', 'duration': '10 min', 'icon': '💧', 'benefit': 'Oral cleanse'},
+            {'name': 'Listen to Soothing Ragas', 'duration': '20 min', 'icon': '🎶', 'benefit': 'Soothing sound'},
+            {'name': 'Write Down 3 Wins', 'duration': '5 min', 'icon': '🏆', 'benefit': 'Fosters resilience'}
+        ]
+        
+        # Pick two random activities
+        random_activities = random.sample(extra_activities, 2)
+        
+        # 3. Compile all suggestions with the dynamic message
+        suggestions_map = {
             'morning': {
                 'title': 'Morning Ritual',
                 'icon': '🌅',
-                'message': 'Start your day with energy and positivity',
+                'message': f'Start your day with energy and positivity. Your aura is currently {mood_status}',
                 'activities': [
                     {'name': 'Sun Salutation', 'duration': '10 min', 'icon': '🧘', 'benefit': 'Energizes body'},
                     {'name': 'Pranayama Breathing', 'duration': '5 min', 'icon': '💨', 'benefit': 'Clears mind'},
                     {'name': 'Gratitude Meditation', 'duration': '5 min', 'icon': '🙏', 'benefit': 'Positive mindset'},
-                    {'name': 'Herbal Tea', 'duration': '5 min', 'icon': '🍵', 'benefit': 'Hydration'}
+                    {'name': 'Herbal Tea', 'duration': '5 min', 'icon': '🍵', 'benefit': 'Hydration'},
+                    *random_activities # Add two random ones
                 ]
             },
             'day': {
                 'title': 'Daytime Balance',
                 'icon': '☀️',
-                'message': 'Maintain harmony throughout your productive hours',
+                'message': f'Maintain harmony throughout your productive hours. Remember, your balance {mood_status}',
                 'activities': [
                     {'name': 'Mindful Breaks', 'duration': '10 min', 'icon': '🚶', 'benefit': 'Reduces stress'},
                     {'name': 'Positive Affirmations', 'duration': '3 min', 'icon': '✨', 'benefit': 'Boosts confidence'},
                     {'name': 'Healthy Meal', 'duration': '30 min', 'icon': '🥗', 'benefit': 'Sustained energy'},
-                    {'name': 'Energy Check-in', 'duration': '2 min', 'icon': '⚡', 'benefit': 'Self-awareness'}
+                    {'name': 'Energy Check-in', 'duration': '2 min', 'icon': '⚡', 'benefit': 'Self-awareness'},
+                    *random_activities
                 ]
             },
             'evening': {
-                'title': 'Evening Serenity',
+                'title': 'Evening Serenity: Moon Mode',
                 'icon': '🌙',
-                'message': 'Wind down peacefully for restful sleep',
+                'message': f'{mood_message} Your latest mood {mood_status}',
                 'activities': [
                     {'name': 'Gentle Yoga', 'duration': '15 min', 'icon': '🧘‍♀️', 'benefit': 'Releases tension'},
                     {'name': 'Digital Sunset', 'duration': '60 min', 'icon': '📱', 'benefit': 'Better sleep'},
                     {'name': 'Journaling', 'duration': '10 min', 'icon': '📔', 'benefit': 'Reflection'},
-                    {'name': 'Sleep Meditation', 'duration': '10 min', 'icon': '😴', 'benefit': 'Deep rest'}
+                    {'name': 'Sleep Meditation', 'duration': '10 min', 'icon': '😴', 'benefit': 'Deep rest'},
+                    *random_activities
                 ]
             }
         }
@@ -271,12 +315,13 @@ def get_ai_suggestions():
         return jsonify({
             'status': 'success',
             'period': period,
-            'suggestions': suggestions.get(period, suggestions['morning'])
+            'suggestions': suggestions_map.get(period, suggestions_map['evening'])
         }), 200
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)}), 400
 
 # ==================== SLEEP TRACKER ROUTES ====================
+# ... (rest of app.py continues here)
 
 @app.route('/api/sleep', methods=['POST'])
 def save_sleep():
@@ -332,19 +377,22 @@ def get_sleep_history(user_id):
 
 @app.route('/api/analytics/<user_id>', methods=['GET'])
 def get_analytics(user_id):
-    """Get wellness analytics"""
+    """
+    Get wellness analytics, including historical data from all trackers 
+    and the latest session-based wellness score.
+    """
     try:
         days = int(request.args.get('days', 7))
         start_date = datetime.utcnow() - timedelta(days=days)
 
-        # Mood analytics
+        # Mood analytics (Historical)
         moods = list(mood_tracker.find({
             'user_id': user_id,
             'timestamp': {'$gte': start_date}
         }))
         avg_mood = sum(m['mood_level'] for m in moods) / len(moods) if moods else 0
 
-        # Routine completion
+        # Routine completion (Historical)
         routines = list(daily_routines.find({
             'user_id': user_id,
             'timestamp': {'$gte': start_date}
@@ -352,7 +400,7 @@ def get_analytics(user_id):
         completed = sum(1 for r in routines if r.get('completed', False))
         completion_rate = (completed / len(routines) * 100) if routines else 0
 
-        # Sleep analytics
+        # Sleep analytics (Historical)
         sleep_data = list(sleep_tracker.find({
             'user_id': user_id,
             'timestamp': {'$gte': start_date}
@@ -360,6 +408,15 @@ def get_analytics(user_id):
         avg_sleep = sum(s['hours'] for s in sleep_data) / len(sleep_data) if sleep_data else 0
         avg_quality = sum(s['quality'] for s in sleep_data) / len(sleep_data) if sleep_data else 0
 
+        # NEW: Get the latest session score (for current 'Aura' display)
+        # This score is calculated on the frontend and temporarily stored in MongoDB 
+        # to simulate the "browser caching" effect for the current state.
+        latest_session_score = session_scores.find_one(
+            {'user_id': user_id},
+            sort=[('timestamp', -1)]
+        )
+        current_wellness_score = latest_session_score['score'] if latest_session_score else 82 # Fallback
+        
         return jsonify({
             'status': 'success',
             'analytics': {
@@ -369,9 +426,62 @@ def get_analytics(user_id):
                 'average_sleep_quality': round(avg_quality, 1),
                 'total_mood_entries': len(moods),
                 'total_routines': len(routines),
-                'period_days': days
+                'period_days': days, # Comma added here
+                'current_wellness_score': round(current_wellness_score, 1)
             }
         }), 200
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 400
+    
+
+# ==================== WELLNESS SESSION LOG ROUTES ====================
+
+@app.route('/api/wellness-session-log', methods=['POST'])
+def save_wellness_score():
+    """Save a temporary wellness score to a session-based collection"""
+    try:
+        data = request.json
+        score_entry = {
+            'user_id': data.get('user_id', 'guest'),
+            'score': data.get('score', 0),
+            'timestamp': datetime.utcnow()
+        }
+
+        # For "clear after session", we insert it into a dedicated collection.
+        # In a real-world scenario, you would set a TTL (Time To Live) index on 'timestamp' 
+        # for the 'session_scores' collection to automatically clear old entries.
+        result = session_scores.insert_one(score_entry)
+        
+        # NOTE: To truly reflect "clearing the score," a separate background task 
+        # or the TTL index would handle the deletion.
+        # For this demonstration, we'll just insert it.
+
+        score_entry['_id'] = str(result.inserted_id)
+        score_entry['timestamp'] = score_entry['timestamp'].isoformat()
+
+        return jsonify({
+            'status': 'success',
+            'message': 'Session score logged successfully',
+            'score': score_entry
+        }), 201
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 400
+
+@app.route('/api/wellness-session-log/<user_id>', methods=['GET'])
+def get_latest_session_score(user_id):
+    """Get the latest temporary wellness score"""
+    try:
+        score = session_scores.find_one(
+            {'user_id': user_id},
+            sort=[('timestamp', -1)]
+        )
+
+        if not score:
+            # Fallback to a default or a general analytics score if the session score isn't found
+            return jsonify({'status': 'success', 'score': 75}), 200
+
+        # We don't need to format the whole object, just return the score value
+        return jsonify({'status': 'success', 'score': score['score']}), 200
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)}), 400
 
