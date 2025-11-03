@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Digital Ayurveda - Ancient Wisdom, Modern Well-being</title>
 
-    <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/images/favicon.png') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,15 +24,14 @@
             <div class="nav-logo-icon" title="Digital Ayurveda">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path
-                        d="M12 4C19 4 22 12 22 12C22 12 19 20 12 20C5 20 2 12 2 12C5 6.5 8 4 12 4Z">
+                    <path d="M12 4C19 4 22 12 22 12C22 12 19 20 12 20C5 20 2 12 2 12C5 6.5 8 4 12 4Z">
                     </path>
                     <circle cx="12" cy="12" r="3"></circle>
                 </svg>
             </div>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
-                <li><a href="#guidance">Soma Zone</a></li> 
+                <li><a href="#guidance">Soma Zone</a></li>
                 <li><a href="#tracker">Tracker</a></li>
                 <li><a href="#about">About</a></li>
             </ul>
@@ -50,7 +49,7 @@
             <h1 class="hero-title-bottom" data-parallax data-parallax-strength="-10">AYURVEDA</h1>
 
             <div id="central-graphic" data-parallax data-parallax-strength="15">
-                <div class="inner-orb-glow"></div> 
+                <div class="inner-orb-glow"></div>
             </div>
 
             <div class="hero-card-top-right frosted-card" data-parallax data-parallax-strength="30">
@@ -84,8 +83,7 @@
             <div class="bg-graphic eye-1">
                 <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path
-                        d="M12 4C19 4 22 12 22 12C22 12 19 20 12 20C5 20 2 12 2 12C5 6.5 8 4 12 4Z">
+                    <path d="M12 4C19 4 22 12 22 12C22 12 19 20 12 20C5 20 2 12 2 12C5 6.5 8 4 12 4Z">
                     </path>
                     <circle cx="12" cy="12" r="3"></circle>
                 </svg>
@@ -93,8 +91,7 @@
             <div class="bg-graphic eye-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path
-                        d="M12 4C19 4 22 12 22 12C22 12 19 20 12 20C5 20 2 12 2 12C5 6.5 8 4 12 4Z">
+                    <path d="M12 4C19 4 22 12 22 12C22 12 19 20 12 20C5 20 2 12 2 12C5 6.5 8 4 12 4Z">
                     </path>
                 </svg>
             </div>
@@ -106,45 +103,51 @@
                 <h2 class="gradient-text">The Soma Zone: Tools for Calm & Balance</h2>
 
                 <p class="theme-explanation" style="margin-bottom: 2rem;">
-                    In Ayurveda, "Soma" is the cooling, lunar energy that brings peace, calm, and rest. This zone is your source for 'Soma'—a library of expert-guided tools to help you heal, relax, and find restorative peace.
+                    In Ayurveda, "Soma" is the cooling, lunar energy that brings peace, calm, and rest. This zone is
+                    your source for 'Soma'—a library of expert-guided tools to help you heal, relax, and find
+                    restorative peace.
                 </p>
 
                 <div class="guidance-content-sections" style="border-bottom: none;">
                     <h3 class="subsection-title">A Holistic Path to Your Well-being</h3>
                     <div class="guidance-grid">
                         <div class="guidance-card">
-                            <span class="guidance-icon">🌙</span> 
+                            <span class="guidance-icon">🌙</span>
                             <h3>Find Your "Soma" (Calm)</h3>
-                            <p>Inspired by the Ayurvedic concept of 'Soma', explore our library of guided meditations, sleep guides, and relaxation tools.</p>
+                            <p>Inspired by the Ayurvedic concept of 'Soma', explore our library of guided meditations,
+                                sleep guides, and relaxation tools.</p>
                             <a href="#guidance" class="card-link">Explore Guidance →</a>
                         </div>
                         <div class="guidance-card">
-                            <span class="guidance-icon">🌸</span> 
+                            <span class="guidance-icon">🌸</span>
                             <h3>Nurture Your "Fragrance" (Practice)</h3>
-                            <p>Like a flower, your good habits spread positivity. Use our "My Aura" dashboard to track your mood and routines.</p>
+                            <p>Like a flower, your good habits spread positivity. Use our "My Aura" dashboard to track
+                                your mood and routines.</p>
                             <a href="#tracker" class="card-link">View My Aura →</a>
                         </div>
                         <div class="guidance-card">
-                            <span class="guidance-icon">📖</span> 
+                            <span class="guidance-icon">📖</span>
                             <h3>Understand the Source</h3>
-                            <p>Learn about our mission and the core philosophy behind Digital Ayurveda—the single, holistic source of true well-being.</p>
+                            <p>Learn about our mission and the core philosophy behind Digital Ayurveda—the single,
+                                holistic source of true well-being.</p>
                             <a href="#about" class="card-link">Read Our Mission →</a>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="guidance-content-sections" style="margin-top: 1rem;">
                     <h3 class="subsection-title">Featured Moon Mode & Content Hub</h3>
                     <div class="mind-zone-layout">
                         <div class="breathing-card">
                             <span class="breathing-icon">🧘‍♀️</span>
                             <h3>Featured: Moon Mode</h3>
-                            <p>Our guided collection to help you disconnect. Based on principles for sleep (Nidra), these tools help you wind down and prepare for deep rest.</p>
+                            <p>Our guided collection to help you disconnect. Based on principles for sleep (Nidra),
+                                these tools help you wind down and prepare for deep rest.</p>
                             <div class="breathing-gif-placeholder">[Sleep Story/Calm Audio Placeholder]</div>
                         </div>
-                        
+
                         <div class="prompt-card">
-                             <div class="guidance-grid" style="gap: 1rem;">
+                            <div class="guidance-grid" style="gap: 1rem;">
                                 <div class="guidance-card">
                                     <span class="guidance-icon">🧠</span>
                                     <h3>Mental Hub</h3>
@@ -155,13 +158,13 @@
                                     <h3>Physical Health</h3>
                                     <p>Resources on nutrition (Ahar) and mindful movement (Vihar).</p>
                                 </div>
-                             </div>
+                            </div>
                             <h3 class="quote" style="margin-top: 1rem;">"Shivoham. I am Consciousness and Bliss."</h3>
                             <p class="prompt-source">- Motivational Quote of the Day</p>
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </section>
 
@@ -200,24 +203,29 @@
                         <form id="healthJournalForm">
                             <div class="form-group full-width">
                                 <label for="mood_level">1. Mood / Stress Level (1=Stressed, 10=Calm)</label>
-                                <input type="range" id="mood_level" name="mood_level" min="1" max="10" value="5" class="range-input">
+                                <input type="range" id="mood_level" name="mood_level" min="1" max="10" value="5"
+                                    class="range-input">
                                 <small class="range-label">Current: <span id="moodValue">5</span></small>
                             </div>
                             <div class="form-group half-width">
                                 <label for="sleep_hours">2. Sleep (Hours)</label>
-                                <input type="number" id="sleep_hours" name="sleep_hours" min="0" max="15" step="0.5" value="7.5" class="form-input">
+                                <input type="number" id="sleep_hours" name="sleep_hours" min="0" max="15" step="0.5"
+                                    value="7.5" class="form-input">
                             </div>
                             <div class="form-group half-width">
                                 <label for="water_intake">3. Water (Liters)</label>
-                                <input type="number" id="water_intake" name="water_intake" min="0" max="5" step="0.1" value="2.5" class="form-input">
+                                <input type="number" id="water_intake" name="water_intake" min="0" max="5" step="0.1"
+                                    value="2.5" class="form-input">
                             </div>
                             <div class="form-group half-width">
                                 <label for="exercise_time">4. Exercise (Mins)</label>
-                                <input type="number" id="exercise_time" name="exercise_time" min="0" max="300" step="10" value="30" class="form-input">
+                                <input type="number" id="exercise_time" name="exercise_time" min="0" max="300" step="10"
+                                    value="30" class="form-input">
                             </div>
                             <div class="form-group half-width">
                                 <label for="screen_time">5. Screen Time (Hours)</label>
-                                <input type="number" id="screen_time" name="screen_time" min="0" max="18" step="0.5" value="5" class="form-input">
+                                <input type="number" id="screen_time" name="screen_time" min="0" max="18" step="0.5"
+                                    value="5" class="form-input">
                             </div>
                             <div class="form-group full-width">
                                 <label for="notes">6. My Health Journal / Notes</label>
@@ -240,19 +248,26 @@
                         यतो जायते पाल्यते येन विश्वं तमीशं भजे लीयते यत्र विश्वम्।|"
                     </blockquote>
                     <p class="theme-explanation">
-                        "I worship that supreme soul, the one, the primordial seed of the universe... From whom the universe originates, by whom it is sustained, and into whom it dissolves."
+                        "I worship that supreme soul, the one, the primordial seed of the universe... From whom the
+                        universe originates, by whom it is sustained, and into whom it dissolves."
                     </p>
                 </div>
-                
+
                 <h3 class="subsection-title">Our Philosophy</h3>
-                <p>This ancient wisdom is the heart of Digital Ayurveda. We believe true health is not a collection of parts, but a single, interconnected system. Our philosophy is rooted in the Ayurvedic understanding that well-being arises from restoring the natural balance of mind, body, and spirit.</p>
+                <p>This ancient wisdom is the heart of Digital Ayurveda. We believe true health is not a collection of
+                    parts, but a single, interconnected system. Our philosophy is rooted in the Ayurvedic understanding
+                    that well-being arises from restoring the natural balance of mind, body, and spirit.</p>
 
                 <h3 class="subsection-title" style="margin-top: 2rem;">Our Commitment</h3>
-                <p>Digital Ayurveda is built by a team of certified Ayurvedic practitioners, psychologists, and technologists dedicated to accessible, holistic care. We blend timeless wisdom with modern, evidence-based practices to create a platform you can trust.</p>
+                <p>Digital Ayurveda is built by a team of certified Ayurvedic practitioners, psychologists, and
+                    technologists dedicated to accessible, holistic care. We blend timeless wisdom with modern,
+                    evidence-based practices to create a platform you can trust.</p>
 
                 <div class="disclaimer">
                     <h3 class="subsection-title">Medical Disclaimer</h3>
-                    <p><strong>Medical Disclaimer:</strong> The information and tools provided by Digital Ayurveda are for supportive and educational purposes. They are not a substitute for professional medical advice, diagnosis, or treatment. Always consult your physician.</p>
+                    <p><strong>Medical Disclaimer:</strong> The information and tools provided by Digital Ayurveda are
+                        for supportive and educational purposes. They are not a substitute for professional medical
+                        advice, diagnosis, or treatment. Always consult your physician.</p>
                 </div>
             </div>
         </section>
@@ -263,7 +278,8 @@
         <div class="footer-columns">
             <div class="footer-column">
                 <h4>Digital Ayurveda</h4>
-                <p style="font-size: 0.9rem; margin-top: 0.5rem; color: var(--text-secondary);">Ancient Wisdom. Modern Well-being.</p>
+                <p style="font-size: 0.9rem; margin-top: 0.5rem; color: var(--text-secondary);">Ancient Wisdom. Modern
+                    Well-being.</p>
             </div>
             <div class="footer-column">
                 <h4>Resources</h4>
